@@ -1,0 +1,40 @@
+bobc-kicad-scripts:
+  description: Footprint wizards
+  packages:
+  - content:
+    - cache: 'no'
+      checksum: SHA-256:30c90a46436487f1bfbfbd3b66b3c6ce503adcbf257e616941d0633c4010600f
+      filter: scripts/footprint-wizards/*.*
+      name: footprint-wizard
+      size: 7146
+      type: script
+      url: https://raw.githubusercontent.com/bobc/kicad-utils/v5/scripts-1.0.0-rc1.zip
+    version: 1.0.0-rc1
+  - content:
+    - cache: 'no'
+      checksum: SHA-256:30c90a46436487f1bfbfbd3b66b3c6ce503adcbf257e616941d0633c4010600f
+      filter: scripts/footprint-wizards/*.*
+      name: footprint-wizard
+      size: 7146
+      type: script
+      url: https://raw.githubusercontent.com/bobc/kicad-utils/v5/scripts-1.0.0-rc2.zip
+    version: 1.0.0-rc2
+  - content:
+    - cache: 'no'
+      checksum: SHA-256:30c90a46436487f1bfbfbd3b66b3c6ce503adcbf257e616941d0633c4010600f
+      filter: scripts/footprint-wizards/*.*
+      name: footprint-wizard
+      size: 7146
+      type: script
+      url: https://raw.githubusercontent.com/bobc/kicad-utils/v5/scripts-1.0.0.zip
+    version: 1.0.0
+  - content:
+    - cache: 'no'
+      checksum: SHA-256:30c90a46436487f1bfbfbd3b66b3c6ce503adcbf257e616941d0633c4010600f
+      filter: scripts/footprint-wizards/*.*
+      name: footprint-wizard
+      size: 7146
+      type: script
+      url: https://raw.githubusercontent.com/bobc/kicad-utils/v5/scripts-1.0.1.zip
+    version: 1.0.1
+  publisher: bobc
