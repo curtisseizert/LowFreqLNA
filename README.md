@@ -20,26 +20,41 @@ The following characteristics are taken from the one of these that I have fully 
 
 <table>
   <tr><td><b>Parameter</td><td><b>Condition</td><td><b>Result</td><td><b>Comment</td></tr>
-  <tr><td>e_n</td><td>1 MHz</td><td>0.6 nV/rtHz</td><td>A</td></tr>
+  <tr><td>Voltage Noise Density</td><td>1 MHz</td><td>0.6 nV/rtHz</td><td>A</td></tr>
   <tr><td> </td><td>1 kHz</td><td>0.6 nV/rtHz</td><td>A</td></tr>
   <tr><td> </td><td>10 Hz</td><td>0.75 nV/rtHz</td><td>B</td></tr>
   <tr><td> </td><td>1 Hz</td><td>1.2 nV/rtHz</td><td>C</td></tr>
   <tr><td> </td><td>0.1 Hz</td><td>3.1 nV/rtHz</td><td>C</td></tr>
   <tr><td> </td><td>0.01 Hz</td><td>13.4 nV/rtHz</td><td>C,D</td></tr>
-  <tr><td>i_n</td><td>0.1-1 Hz</td><td><2 fA/rtHz</td><td>E</td></tr>
+  <tr><td>Voltage Noise</td><td>0.1 Hz - 10 Hz</td><td>15 nV p-p</td><td>C</td></tr>
+  <tr><td></td><td>0.01 Hz - 10 Hz</td><td>20 nV p-p</td><td>C</td></tr>
+  <tr><td>Current Noise Density</td><td>0.1-1 Hz</td><td><2 fA/rtHz</td><td>E</td></tr>
   <tr><td>-3dB Bandwidth</td><td>0R source impedance</td><td>2.8 MHz</td><td></td></tr>
-  <tr><td>i_q</td><td>shorted input</td><td>30 mA</td><td></td></tr>
+  <tr><td>Input Capacitance</td><td>6k04 source impedance</td><td>140 pF</td><td>F</td></tr>   
+  <tr><td>Quiescent Current</td><td>shorted input</td><td>30 mA</td><td></td></tr>
   <tr><td>Battery Capacity</td><td>Samsung 50S cells</td><td>5000 mA/h</td><td>nominal</td></tr>
   <tr><td>i_chg</td><td></td><td>2.7A</td><td></td></tr>
-  <tr><td>Charger efficiency</td><td>V_Batt = 15V</td><td>98%</td><td>F</td></tr>
+  <tr><td>Charger efficiency</td><td>V_Batt = 15V</td><td>98%</td><td>G</td></tr>
 </table>
 
-A: Full bandwidth, ADP-3450; B: 0.1-10 kHz bandwidth, ADP-3450; C: 0.01-10 Hz bandwidth, HP3458A; D: calc'd from measured value (9.5 nV/rtHz) and 3dB attenuation from HP filter; E: Calculated from open input VSD (100M resistor). Resulting noise was <0.1% from calculated value; F: Measured on board, does not include cable losses
+A: Full bandwidth, ADP-3450; B: 0.1-10 kHz bandwidth, ADP-3450; C: 0.01-10 Hz bandwidth, HP3458A; D: calc'd from measured value (9.5 nV/rtHz) and 3dB attenuation from HP filter; E: Calculated from open input VSD (100M resistor). Resulting noise was <0.1% from calculated value; F: -3dB point with 6k04 resistor is 190 kHz. Primarily from board parasitics and RC damper; G: Measured on board, does not include cable losses
+
+Spectra
+-------
 
 ![WB_Noisefloor](https://github.com/curtisseizert/LowFreqLNA/assets/22351001/6304908f-1c2c-4e94-bb2f-d1c79696a5cc)
 ![10kHz noisefloor loglog](https://github.com/curtisseizert/LowFreqLNA/assets/22351001/e9fd5cee-e98b-4792-a22c-dabd757939f8)
 ![10Hz noisefloor loglog](https://github.com/curtisseizert/LowFreqLNA/assets/22351001/554053f5-d099-43b1-b52d-b93f1d3d05b2)
 ![Calibration spectrum](https://github.com/curtisseizert/LowFreqLNA/assets/22351001/3797b6e6-a104-45f1-ae12-9feeeed68480)
+![0 1-10HzNoise](https://github.com/curtisseizert/LowFreqLNA/assets/22351001/5cd0d9fb-89c3-40e6-9c49-0ae6daa91421)
+![0 01-10HzNoise](https://github.com/curtisseizert/LowFreqLNA/assets/22351001/eedb229e-2893-4a41-8cd9-a697555fcee9)
+
+
+
+Application: Measuring voltage noise of voltage references
+----------------------------------------------------------
+Due to the low noise floor of the preamplifier, it can be used to easily measure the voltage noise of even the quietest (room temperature) references without error due to its own noise floor. Additionally, the use of polypropylene AC coupling capacitors with low dielectric absorption and the inclusion of the "SETTLE" feature allow measurement down to 10 mHz without excessive settling time. The plot below shows the voltage noise spectral density of several ADR1000-based 10-V references. Due to the high input impedance at low frequency, increasing the source impedance does not measurably change the gain of the amplifier. This is not the case with common 1000 uF/1k AC-coupled LNAs, which give considerable gain errors at even moderate source impedances (e.g., a 100 Ohm source impedance would give a gain error of 9.1%).
+
 ![ADR1000 selection VSDs](https://github.com/curtisseizert/LowFreqLNA/assets/22351001/cc7fbcfa-f066-428e-9f77-fbd01bc140b9)
 
 
