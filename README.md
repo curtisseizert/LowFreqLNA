@@ -12,3 +12,36 @@ This repo contains the complete design files for a low noise AC coupled amplifie
 (5) The rear panel board/battery charger.
 
 At present, I have hand assembled these using a converted toaster oven, which is a semi-onerous but doable-in-a-weekend task. As such, the BOMs are incomplete in all cases, which I will aim to rectify going forward. It is my hope that this will serve the needs of others designing voltage references, DACs, power supplies, etc. I may try to fix a couple things about this that have been bugging me, such as the lack of prefiltering and the antenna-like properties of the PP caps used in HP filters in the signal train. There is also a bit of room for reducing current draw. A fully differential version has been suggested, but if I work on that, I will make a separate repo for it.
+
+Electrical Characteristics
+--------------------------
+
+The following characteristics are taken from the one of these that I have fully assembled. Characterization was performed with a Digilent Analog Discovery Pro ADP3450 for bandwidths >10 kHz, a Keysight 34465A, and an HP3458A. Noise captures with the ADP3450 were digitized in Waveforms, exported, and transformed to the frequency domain using the SciPy Signal Python library in Spyder IDE. Captures with the HP3458A were taken using the PyVISA Python library for low frequency (50 SPS) digitization. The HP3458A was used for most low frequency work due to its superior isolation and common mode immunity. Bandwidth characterization was performed with the network analyzer utility in Waveforms for the ADP3450 and a 60dB attenuator. Gain calibration was performed by measuring the noise of a 6k04 resistor (9.97 nV/rtHz Johnson-Nyquist voltage noise density at 298k) comparing the bandwidth-limited RMS amplitude of the output signal to the theoretical value at the ambient temperature outside the amplifier. Linearity was checked by obtaining bandwidth-limited RMS amplitudes for a 240R resistor and a short, accounting for the RMS addition of the amplifier's own noise floor and that of the 240R resistor. The calibration resistors were 0.1%, 10 ppm/K thin film types. Quiescent current was measured by powering the amplifier with a Rigol DP832A DC power supply at +/-8V.
+
+<table>
+  <tr><td><b>Parameter</td><td><b>Condition</td><td><b>Result</td><td><b>Comment</td></tr>
+  <tr><td>e_n</td><td>1 MHz</td><td>0.6 nV/rtHz</td><td>A</td></tr>
+  <tr><td> </td><td>1 kHz</td><td>0.6 nV/rtHz</td><td>A</td></tr>
+  <tr><td> </td><td>10 Hz</td><td>0.75 nV/rtHz</td><td>B</td></tr>
+  <tr><td> </td><td>1 Hz</td><td>1.2 nV/rtHz</td><td>C</td></tr>
+  <tr><td> </td><td>0.1 Hz</td><td>3.1 nV/rtHz</td><td>C</td></tr>
+  <tr><td> </td><td>0.01 Hz</td><td>13.4 nV/rtHz</td><td>C,D</td></tr>
+  <tr><td>i_n</td><td>0.1-1 Hz</td><td><2 fA/rtHz</td><td>E</td></tr>
+  <tr><td>-3dB Bandwidth</td><td>0R source impedance</td><td>2.8 MHz</td><td></td></tr>
+  <tr><td>i_q</td><td>shorted input</td><td>30 mA</td><td></td></tr>
+  <tr><td>Battery Capacity</td><td>Samsung 50S cells</td><td>5000 mA/h</td><td>nominal</td></tr>
+  <tr><td>i_chg</td><td></td><td>2.7A</td><td></td></tr>
+  <tr><td>Charger efficiency</td><td>V_Batt = 15V</td><td>98%</td><td>F</td></tr>
+</table>
+
+A: Full bandwidth, ADP-3450; B: 0.1-10 kHz bandwidth, ADP-3450; C: 0.01-10 Hz bandwidth, HP3458A; D: calc'd from measured value (9.5 nV/rtHz) and 3dB attenuation from HP filter; E: Calculated from open input VSD (100M resistor). Resulting noise was <0.1% from calculated value; F: Measured on board, does not include cable losses
+
+![WB_Noisefloor](https://github.com/curtisseizert/LowFreqLNA/assets/22351001/6304908f-1c2c-4e94-bb2f-d1c79696a5cc)
+![10kHz noisefloor loglog](https://github.com/curtisseizert/LowFreqLNA/assets/22351001/e9fd5cee-e98b-4792-a22c-dabd757939f8)
+![10Hz noisefloor loglog](https://github.com/curtisseizert/LowFreqLNA/assets/22351001/554053f5-d099-43b1-b52d-b93f1d3d05b2)
+![Calibration spectrum](https://github.com/curtisseizert/LowFreqLNA/assets/22351001/3797b6e6-a104-45f1-ae12-9feeeed68480)
+![ADR1000 selection VSDs](https://github.com/curtisseizert/LowFreqLNA/assets/22351001/cc7fbcfa-f066-428e-9f77-fbd01bc140b9)
+
+
+
+
