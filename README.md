@@ -4,14 +4,16 @@ A 0.01Hz-1+MHz low noise amplifier
 ![Amplifier assembled](https://github.com/curtisseizert/LowFreqLNA/assets/22351001/5cb4d507-83ab-44a3-b9a8-da4d0036aa29)
 
 
-This repo contains the complete design files for a low noise AC coupled amplifier intended especially for characterization of 1/f noise of voltage references, DACs, etc. For broader applicability, it also has a reasonably high bandwidth of 2.5 MHz (measured, -3dB) at 60 or 80 dB gain, and about 1 MHz at 100 dB gain. Consistent with my primary use case for this amplifier, it has exceptionally low 1/f noise itself (measured at 3.2 nVRMS from 0.01-10 Hz) and a low broadband noise density of around 0.6 nV/rtHz. The quiescent current draw for the amplifier is about 30 mA, giving it a battery life of >100 h with the 4S 21700 Li batteries used to power the device. The project includes five PCBs:
+This repository contains the complete design files for a low noise AC coupled amplifier intended especially for characterization of 1/f noise of voltage references, DACs, etc. For broader applicability, it also has a reasonably high bandwidth of 2.5 MHz (measured, -3dB) at 60 or 80 dB gain, and about 1 MHz at 100 dB gain. Consistent with my primary use case for this amplifier, it has exceptionally low 1/f noise itself (measured at 3.2 nVRMS from 0.01-10 Hz) and a low broadband noise density of around 0.6 nV/rtHz. The quiescent current draw for the amplifier is about 30 mA, giving it a battery life of >100 h with the 4S 21700 Li batteries used to power the device. The project includes five PCBs:
 (1) The main amplifier board
 (2) The BMS board
 (3) The SW board
 (4) The front panel board
 (5) The rear panel board/battery charger.
 
-At present, I have hand assembled these using a converted toaster oven, which is a semi-onerous but doable-in-a-weekend task. As such, the BOMs are incomplete in all cases, which I will aim to rectify going forward. It is my hope that this will serve the needs of others designing voltage references, DACs, power supplies, etc. I may try to fix a couple things about this that have been bugging me, such as the lack of prefiltering and the antenna-like properties of the PP caps used in HP filters in the signal train. There is also a bit of room for reducing current draw. A fully differential version has been suggested, but if I work on that, I will make a separate repo for it.
+At present, I have hand assembled these using a converted toaster oven, which is a semi-onerous but doable-in-a-weekend task. As such, the BOMs are incomplete in all cases, which I will aim to rectify going forward. It is my hope that this will serve the needs of others designing voltage references, DACs, power supplies, etc. I may try to fix a couple things about this that have been bugging me, such as the lack of prefiltering and the antenna-like properties of the PP caps used in HP filters in the signal train. There is also a bit of room for reducing current draw. A fully differential version has been suggested, but if I work on that, I will make a separate repository for it.
+
+The input stage is formed from a 24uF/100M RC high pass filter feeding a hybrid amplifier. The hybrid amplifier consists of 16 parallel JFE2140 dual JFETs in a cascode differential amplifier configuration. This drives an OPA140 op amp, which provides feedback via a 1k/2R divider to the inverting gate of the differential pair. The DC offset of the input stage is removed with a 2.2uF/10M HP filter. A switched gain stage amplifies the signal, which is HP filtered again to remove offsets and set the high-pass cutoff of the amplifier. The switched low-pass filtering is provided by two fourth-order butterworth filters in Sallen-Key topology. Switches select either one of these outputs or the unfiltered amplified signal to feed to the output stage. A common problem with low-frequency AC coupled amplifiers is very long settling times when switching inputs. This is addressed with the "SETTLE" and "INPUT PROT" switches on the front panel. The former shorts the resistors of both of the post-input stage HP filter outputs with low-leakage MMBF4117 JFETs, and the latter shorts the input AC coupling filter by shorting the 100M resistor with a relay. With these switches, it is possible to take valid measurements down to 0.1 Hz with a minute or so of settling time and measurements down to 0.01 Hz with 5-10 minutes of settling time. Saturation of the amplifiers prior to both HP filters is detected with window comparators, which drive warning lights on the front panel. These features are meant to make it reasonably convenient to make low-level measurements and be confident the result is valid.
 
 Electrical Characteristics
 --------------------------
@@ -30,7 +32,10 @@ The following characteristics are taken from the one of these that I have fully 
   <tr><td></td><td>0.01 Hz - 10 Hz</td><td>20 nV p-p</td><td>C</td></tr>
   <tr><td>Current Noise Density</td><td>0.1-1 Hz</td><td><2 fA/rtHz</td><td>E</td></tr>
   <tr><td>-3dB Bandwidth</td><td>0R source impedance</td><td>2.8 MHz</td><td></td></tr>
-  <tr><td>Input Capacitance</td><td>6k04 source impedance</td><td>140 pF</td><td>F</td></tr>   
+  <tr><td>Input Capacitance</td><td>6k04 source impedance</td><td>140 pF</td><td>F</td></tr>
+  <tr><td>10 kHz Low pass filter</td><td></td><td>4th order Butterworth</td><td>F</td></tr>
+  <tr><td>10 Hz Low pass filter</td><td></td><td>4th order Butterworth</td><td>F</td></tr>
+  <tr><td>THD</td><td>5 kHz</td><td><-70dB</td><td>F</td></tr>
   <tr><td>Quiescent Current</td><td>shorted input</td><td>30 mA</td><td></td></tr>
   <tr><td>Battery Capacity</td><td>Samsung 50S cells</td><td>5000 mA/h</td><td>nominal</td></tr>
   <tr><td>i_chg</td><td></td><td>2.7A</td><td></td></tr>
